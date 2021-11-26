@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        * {
+            padding: 0;
+            margin: 0;
+            box-sizing: border-box;
+        }
+        main {
+            height: 100vh;
+            background: linear-gradient( 125deg, green, yellow);
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+        }
+        main div {
+            display: flex;
+            flex-direction: column;
+            max-width: 500px;
+            background: linear-gradient(125deg, aqua, rgb(255, 0, 242));
+            height: auto;
+            box-shadow: 1px 1px 15px 3px black;
+            padding: 50px;
+        }
+        main div form {
+            line-height: 25px;
+        }
+        h1 {
+            margin-bottom: 10px;
+            text-shadow: 1px 2px 1px white;
+        }
+        label {
+            margin-top: 15px;
+            text-decoration: underline;
+        }
+        input {
+            width: 400px;
+            padding: 10px 10px;
+            border-radius: 20px;
+            border: none;
+            background-color: white;
+            transition: all 0.3s;
+        }
+        button {
+            width: 100px;
+            padding: 10px 15px;
+            margin-top: 20px;
+            text-transform: uppercase;
+            border: none;
+            background-color: rgb(128, 247, 247);
+            box-shadow: 1px 1px 5px 1px black;
+            border-radius: 20px;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+    <main>
+        <h1>Tip Calculator</h1>
+        <div>
+            <form method="post">
+            <label>Bill Amount</label>
+            <input placeholder="enter the bill amount" type="text" maxlength="15" id="bill_amount" onkeypress="return isNumberKey(event)">
+            <label>Tip Percentage</label>
+            <input placeholder="enter tip percentage" type="text" maxlength="5" min="1" max="100" onkeyup="return imposeMinMax(this)" id="tip_percentage" onkeypress="return isNumberKey(event)">
+            <label>Tip Amount</label>
+            <input name="" type="text" id="tip_amount" disabled>
+            <label>Total Amount</label>
+            <input name="" type="text" id="total_amount" disabled>
+            </form>
+            <button onclick="tipcal()">Calculate</button>
+        </div>
+    </main>
+    <script>
+    function imposeMinMax(el){
+        if(el.value != ""){
+            if(parseInt(el.value) < parseInt(el.min)){
+                el.value = el.min;
+            }
+            if(parseInt(el.value) > parseInt(el.max)){
+                el.value = el.max;
+            }
+        }
+    }
+        function isNumberKey(evt)
+        {
+            var charCode = (evt.which) ? evt.which : evt.keyCode;
+            if (charCode != 46 && charCode > 31 
+            && (charCode < 48 || charCode > 57))
+            return false;
+
+            return true;
+        }
+        const tipcal=()=>{
+            let Amount=document.getElementById('bill_amount').value;
+            let perc=document.getElementById('tip_percentage').value;
+            if(Amount.length==0 || perc.length==0){
+                document.getElementById('tip_amount').value='';
+                document.getElementById('total_amount').value='';  
+                alert('please fill required input');
+                return;  
+            }
+            let tip = (Amount*(perc/100)).toFixed(2);
+            let total=Number(Amount)+Number(tip);
+            document.getElementById('tip_amount').value=tip;
+            document.getElementById('total_amount').value=total.toFixed(2);
+        }
+    </script>
+</body>
+</html>
